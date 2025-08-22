@@ -34,14 +34,13 @@ jobs:
           echo "Diff head: ${{ github.sha }}"
           git diff --name-status "${{ github.event.before }}" "${{ github.sha }}" || true
 
-            - name: Detect packages to release (changed + initial)
+      - name: Detect packages to release (changed + initial)
         id: detect
         shell: bash
         run: |
           set -euo pipefail
           ROOT="Assets/Packages"
 
-          # 1) package.json, изменённые в этом пуше
           CHANGED_PKG_JSON=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- "${ROOT}/*/package.json" || true)
           declare -A WANT=()
           if [[ -n "$CHANGED_PKG_JSON" ]]; then
@@ -51,7 +50,6 @@ jobs:
             done <<< "$CHANGED_PKG_JSON"
           fi
 
-          # 2) Инициальный релиз: пакеты без тега <pkg>@<version>
           while IFS= read -r pj; do
             pkg=$(awk -F/ '{print $3}' <<<"$pj")
             ver=$(jq -r '.version' "$pj")
@@ -61,14 +59,12 @@ jobs:
             fi
           done < <(ls -1 "${ROOT}"/*/package.json 2>/dev/null || true)
 
-          # Сформировать compact JSON-массив (одной строкой!)
           if (( ${#WANT[@]} == 0 )); then
             echo "release_pkgs=" >> "$GITHUB_OUTPUT"
             echo "No packages to release."
             exit 0
           fi
 
-          # compact (-c) чтобы не было переводов строк
           PKGS_JSON=$(printf '%s\n' "${!WANT[@]}" | sort -u | jq -R . | jq -sc .)
           echo "Will release packages: $PKGS_JSON"
           echo "release_pkgs=$PKGS_JSON" >> "$GITHUB_OUTPUT"
@@ -81,7 +77,7 @@ jobs:
           ROOT="Assets/Packages"
 
           pkgs='${{ steps.detect.outputs.release_pkgs }}'   # JSON строкой
-          # Обходим массив пакетов
+
           while IFS= read -r PKG; do
             PREFIX="$ROOT/$PKG"
             PJ="$PREFIX/package.json"
