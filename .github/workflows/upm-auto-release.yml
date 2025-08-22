@@ -1,0 +1,101 @@
+name: upm-auto-release
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: upm-auto-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+        fetch-depth: 0 # нужен полный git для subtree split и тегов
+      - name: Setup git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+
+      - name: Detect changed packages (package.json)
+        id: detect
+        shell: bash
+        run: |
+          set -e
+          BEFORE="${{ github.event.before }}"
+          AFTER="${{ github.sha }}"
+          echo "Before: $BEFORE"; echo "After: $AFTER"
+
+
+          # Список изменённых package.json внутри Packages/*
+          CHANGED=$(git diff --name-only "$BEFORE" "$AFTER" | grep '^Packages/.\+/package.json' || true)
+          if [[ -z "$CHANGED" ]]; then
+          echo "changed_pkgs=" >> $GITHUB_OUTPUT
+          echo "No package.json changes; skipping release."; exit 0
+          fi
+
+
+          # Извлечь имена пакетов (папка) и упаковать в JSON-массив
+          PKGS=()
+          while IFS= read -r path; do
+          pkg=$(echo "$path" | sed -E 's#^Packages/([^/]+)/package.json#\1#')
+          PKGS+=("$pkg")
+          done <<< "$CHANGED"
+
+
+          # Уникальные значения
+          mapfile -t PKGS < <(printf '%s\n' "${PKGS[@]}" | sort -u)
+
+
+          printf 'Detected packages: %s\n' "${PKGS[*]}"
+          echo "changed_pkgs=$(printf '%s\n' "${PKGS[@]}" | jq -R . | jq -s .)" >> $GITHUB_OUTPUT
+      - name: Auto release changed packages
+        if: steps.detect.outputs.changed_pkgs != ''
+        shell: bash
+        run: |
+          set -e
+          pkgs=$(echo '${{ steps.detect.outputs.changed_pkgs }}' | jq -r '.[]')
+          for PKG in $pkgs; do
+          PREFIX="Packages/$PKG"
+          if [[ ! -f "$PREFIX/package.json" ]]; then
+          echo "Skip $PKG: no package.json"; continue
+          fi
+          VER=$(jq -r '.version' "$PREFIX/package.json")
+          TAG="$PKG@$VER"
+          echo "Releasing $PKG version $VER (tag $TAG)"
+
+
+          # subtree split (по текущему коммиту)
+          COMMIT=$(git subtree split --prefix="$PREFIX" "${{ github.sha }}")
+          echo "Split commit: $COMMIT"
+
+
+          # обновить upm-ветку
+          BR="upm/$PKG"
+          git branch -f "$BR" "$COMMIT"
+          git push -f origin "$BR"
+
+
+          # проверить существование тега
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+          echo "Tag $TAG already exists — skip tagging. If version changed, bump version."; continue
+          fi
+
+
+          # создать и запушить тег
+          git tag -a "$TAG" "$COMMIT" -m "$TAG"
+          git push origin "$TAG"
+          echo "Published tag $TAG"
+          done

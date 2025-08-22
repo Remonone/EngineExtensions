@@ -1,0 +1,19 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Bb]uild*/
+[Ll]ogs/
+UserSettings/
+obj/
+
+
+# Logs
+*.log
+*.jsonl
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+*.csproj

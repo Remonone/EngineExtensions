@@ -1,0 +1,10 @@
+{
+"name": "com.hive.engine_extensions.abstractions",
+"displayName": "Engine Extensions - Abstractions",
+"version": "0.0.1",
+"unity": "6000.2",
+"description": "Contracts (interfaces + DTO) for game engine layer.",
+"author": { "name": "Remon" },
+"keywords": ["extensions", "engine", "contracts"],
+"dependencies": {}
+}
