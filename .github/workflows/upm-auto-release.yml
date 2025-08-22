@@ -34,16 +34,16 @@ jobs:
           echo "Diff head: ${{ github.sha }}"
           git diff --name-status "${{ github.event.before }}" "${{ github.sha }}" || true
 
-      - name: Detect packages to release (changed + initial)
+            - name: Detect packages to release (changed + initial)
         id: detect
         shell: bash
         run: |
-          set -e
-
+          set -euo pipefail
           ROOT="Assets/Packages"
 
+          # 1) package.json, изменённые в этом пуше
           CHANGED_PKG_JSON=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- "${ROOT}/*/package.json" || true)
-          declare -A WANT
+          declare -A WANT=()
           if [[ -n "$CHANGED_PKG_JSON" ]]; then
             while IFS= read -r p; do
               pkg=$(awk -F/ '{print $3}' <<<"$p")
@@ -51,6 +51,7 @@ jobs:
             done <<< "$CHANGED_PKG_JSON"
           fi
 
+          # 2) Инициальный релиз: пакеты без тега <pkg>@<version>
           while IFS= read -r pj; do
             pkg=$(awk -F/ '{print $3}' <<<"$pj")
             ver=$(jq -r '.version' "$pj")
@@ -60,29 +61,31 @@ jobs:
             fi
           done < <(ls -1 "${ROOT}"/*/package.json 2>/dev/null || true)
 
+          # Сформировать compact JSON-массив (одной строкой!)
           if (( ${#WANT[@]} == 0 )); then
-            echo "release_pkgs=" >> $GITHUB_OUTPUT
+            echo "release_pkgs=" >> "$GITHUB_OUTPUT"
             echo "No packages to release."
             exit 0
           fi
 
-          PKGS_JSON=$(printf '%s\n' "${!WANT[@]}" | sort -u | jq -R . | jq -s .)
+          # compact (-c) чтобы не было переводов строк
+          PKGS_JSON=$(printf '%s\n' "${!WANT[@]}" | sort -u | jq -R . | jq -sc .)
           echo "Will release packages: $PKGS_JSON"
-          echo "release_pkgs=$PKGS_JSON" >> $GITHUB_OUTPUT
+          echo "release_pkgs=$PKGS_JSON" >> "$GITHUB_OUTPUT"
 
       - name: Auto release
         if: steps.detect.outputs.release_pkgs != ''
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
           ROOT="Assets/Packages"
-          for PKG in $(echo '${{ steps.detect.outputs.release_pkgs }}' | jq -r '.[]'); do
+
+          pkgs='${{ steps.detect.outputs.release_pkgs }}'   # JSON строкой
+          # Обходим массив пакетов
+          while IFS= read -r PKG; do
             PREFIX="$ROOT/$PKG"
             PJ="$PREFIX/package.json"
-            if [[ ! -f "$PJ" ]]; then
-              echo "Skip $PKG: no package.json at $PJ"
-              continue
-            fi
+            [[ -f "$PJ" ]] || { echo "Skip $PKG: no $PJ"; continue; }
 
             VER=$(jq -r '.version' "$PJ")
             TAG="$PKG@$VER"
@@ -102,4 +105,5 @@ jobs:
               git push origin "$TAG"
               echo "Published tag $TAG"
             fi
-          done
+          done < <(jq -r '.[]' <<<"$pkgs")
+
