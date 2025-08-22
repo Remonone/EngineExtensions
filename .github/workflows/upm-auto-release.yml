@@ -39,23 +39,20 @@ jobs:
           echo "Before: $BEFORE"; echo "After: $AFTER"
 
 
-          # Список изменённых package.json внутри Packages/*
-          CHANGED=$(git diff --name-only "$BEFORE" "$AFTER" | grep '^Packages/.\+/package.json' || true)
+          CHANGED=$(git diff --name-only "$BEFORE" "$AFTER" | grep '^Assets/Packages/.\+/package.json' || true)
           if [[ -z "$CHANGED" ]]; then
           echo "changed_pkgs=" >> $GITHUB_OUTPUT
           echo "No package.json changes; skipping release."; exit 0
           fi
 
 
-          # Извлечь имена пакетов (папка) и упаковать в JSON-массив
           PKGS=()
           while IFS= read -r path; do
-          pkg=$(echo "$path" | sed -E 's#^Packages/([^/]+)/package.json#\1#')
+          pkg=$(echo "$path" | sed -E 's#^Assets/Packages/([^/]+)/package.json#\1#')
           PKGS+=("$pkg")
           done <<< "$CHANGED"
 
 
-          # Уникальные значения
           mapfile -t PKGS < <(printf '%s\n' "${PKGS[@]}" | sort -u)
 
 
@@ -68,7 +65,7 @@ jobs:
           set -e
           pkgs=$(echo '${{ steps.detect.outputs.changed_pkgs }}' | jq -r '.[]')
           for PKG in $pkgs; do
-          PREFIX="Packages/$PKG"
+          PREFIX="Assets/Packages/$PKG"
           if [[ ! -f "$PREFIX/package.json" ]]; then
           echo "Skip $PKG: no package.json"; continue
           fi
