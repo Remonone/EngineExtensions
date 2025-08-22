@@ -1,0 +1,13 @@
+﻿{
+  "name": "com.hive.engine_extensions.diagnosis",
+  "rootNamespace": "EngineExtensions.Diagnosis",
+  "references": ["com.hive.engine_extensions.abstraction", "com.hive.engine_extensions.logger"],
+  "includePlatforms": ["Android", "Editor", "iOS", "LinuxStandalone64", "WindowsStandalone64"],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": true
+}
