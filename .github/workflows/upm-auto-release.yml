@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-        fetch-depth: 0 # нужен полный git для subtree split и тегов
+          fetch-depth: 0
       - name: Setup git identity
         run: |
           git config user.name "github-actions[bot]"
