@@ -19,80 +19,87 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Setup git identity
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
 
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Debug changed files (optional)
+        run: |
+          echo "Diff base: ${{ github.event.before }}"
+          echo "Diff head: ${{ github.sha }}"
+          git diff --name-status "${{ github.event.before }}" "${{ github.sha }}" || true
 
-      - name: Detect changed packages (package.json)
+      - name: Detect packages to release (changed + initial)
         id: detect
         shell: bash
         run: |
           set -e
-          BEFORE="${{ github.event.before }}"
-          AFTER="${{ github.sha }}"
-          echo "Before: $BEFORE"; echo "After: $AFTER"
 
+          ROOT="Assets/Packages"
 
-          CHANGED=$(git diff --name-only "$BEFORE" "$AFTER" | grep '^Assets/Packages/.\+/package.json' || true)
-          if [[ -z "$CHANGED" ]]; then
-          echo "changed_pkgs=" >> $GITHUB_OUTPUT
-          echo "No package.json changes; skipping release."; exit 0
+          CHANGED_PKG_JSON=$(git diff --name-only "${{ github.event.before }}" "${{ github.sha }}" -- "${ROOT}/*/package.json" || true)
+          declare -A WANT
+          if [[ -n "$CHANGED_PKG_JSON" ]]; then
+            while IFS= read -r p; do
+              pkg=$(awk -F/ '{print $3}' <<<"$p")
+              [[ -n "$pkg" ]] && WANT["$pkg"]=1
+            done <<< "$CHANGED_PKG_JSON"
           fi
 
+          while IFS= read -r pj; do
+            pkg=$(awk -F/ '{print $3}' <<<"$pj")
+            ver=$(jq -r '.version' "$pj")
+            tag="$pkg@$ver"
+            if ! git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+              WANT["$pkg"]=1
+            fi
+          done < <(ls -1 "${ROOT}"/*/package.json 2>/dev/null || true)
 
-          PKGS=()
-          while IFS= read -r path; do
-          pkg=$(echo "$path" | sed -E 's#^Assets/Packages/([^/]+)/package.json#\1#')
-          PKGS+=("$pkg")
-          done <<< "$CHANGED"
+          if (( ${#WANT[@]} == 0 )); then
+            echo "release_pkgs=" >> $GITHUB_OUTPUT
+            echo "No packages to release."
+            exit 0
+          fi
 
+          PKGS_JSON=$(printf '%s\n' "${!WANT[@]}" | sort -u | jq -R . | jq -s .)
+          echo "Will release packages: $PKGS_JSON"
+          echo "release_pkgs=$PKGS_JSON" >> $GITHUB_OUTPUT
 
-          mapfile -t PKGS < <(printf '%s\n' "${PKGS[@]}" | sort -u)
-
-
-          printf 'Detected packages: %s\n' "${PKGS[*]}"
-          echo "changed_pkgs=$(printf '%s\n' "${PKGS[@]}" | jq -R . | jq -s .)" >> $GITHUB_OUTPUT
-      - name: Auto release changed packages
-        if: steps.detect.outputs.changed_pkgs != ''
+      - name: Auto release
+        if: steps.detect.outputs.release_pkgs != ''
         shell: bash
         run: |
           set -e
-          pkgs=$(echo '${{ steps.detect.outputs.changed_pkgs }}' | jq -r '.[]')
-          for PKG in $pkgs; do
-          PREFIX="Assets/Packages/$PKG"
-          if [[ ! -f "$PREFIX/package.json" ]]; then
-          echo "Skip $PKG: no package.json"; continue
-          fi
-          VER=$(jq -r '.version' "$PREFIX/package.json")
-          TAG="$PKG@$VER"
-          echo "Releasing $PKG version $VER (tag $TAG)"
+          ROOT="Assets/Packages"
+          for PKG in $(echo '${{ steps.detect.outputs.release_pkgs }}' | jq -r '.[]'); do
+            PREFIX="$ROOT/$PKG"
+            PJ="$PREFIX/package.json"
+            if [[ ! -f "$PJ" ]]; then
+              echo "Skip $PKG: no package.json at $PJ"
+              continue
+            fi
 
+            VER=$(jq -r '.version' "$PJ")
+            TAG="$PKG@$VER"
+            echo "=== Releasing $PKG version $VER (tag $TAG)"
 
-          # subtree split (по текущему коммиту)
-          COMMIT=$(git subtree split --prefix="$PREFIX" "${{ github.sha }}")
-          echo "Split commit: $COMMIT"
+            COMMIT=$(git subtree split --prefix="$PREFIX" "${{ github.sha }}")
+            echo "Split commit: $COMMIT"
 
+            BR="upm/$PKG"
+            git branch -f "$BR" "$COMMIT"
+            git push -f origin "$BR"
 
-          # обновить upm-ветку
-          BR="upm/$PKG"
-          git branch -f "$BR" "$COMMIT"
-          git push -f origin "$BR"
-
-
-          # проверить существование тега
-          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
-          echo "Tag $TAG already exists — skip tagging. If version changed, bump version."; continue
-          fi
-
-
-          # создать и запушить тег
-          git tag -a "$TAG" "$COMMIT" -m "$TAG"
-          git push origin "$TAG"
-          echo "Published tag $TAG"
+            if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+              echo "Tag $TAG already exists — skip tagging."
+            else
+              git tag -a "$TAG" "$COMMIT" -m "$TAG"
+              git push origin "$TAG"
+              echo "Published tag $TAG"
+            fi
           done
