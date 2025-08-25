@@ -1,0 +1,7 @@
+{
+    "name": "event.tests",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "references":[ "GUID:8ddd181576cd49e687f86db3dfb28f35", "GUID:2577f73c12733cd4c8b7a109e9338fd0", "GUID:20cd8fe9021b4d359f8afe45a20814f7" ]
+}

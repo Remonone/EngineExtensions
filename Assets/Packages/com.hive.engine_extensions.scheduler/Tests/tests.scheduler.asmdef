@@ -1,0 +1,7 @@
+{
+    "name": "tests.scheduler",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "references":[ "GUID:2577f73c12733cd4c8b7a109e9338fd0", "GUID:20cd8fe9021b4d359f8afe45a20814f7" ]
+}
