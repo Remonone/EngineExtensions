@@ -1,0 +1,23 @@
+﻿{
+  "name": "com.hive.engine_extensions.scheduler",
+  "rootNamespace": "EngineExtensions.Core.Scheduler",
+  "references": [
+    "com.hive.engine_extensions.abstraction",
+    "com.hive.engine_extensions.logger"
+  ],
+  "includePlatforms": [
+    "Android",
+    "Editor",
+    "iOS",
+    "LinuxStandalone64",
+    "WindowsStandalone64"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
