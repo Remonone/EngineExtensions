@@ -1,0 +1,10 @@
+﻿{
+  "name": "snapshots.tests",
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "references":[ "GUID:2577f73c12733cd4c8b7a109e9338fd0", "GUID:fac8b2146a0e413bb7587d6085a4ae0f" ]
+}
