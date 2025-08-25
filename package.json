@@ -1,0 +1,10 @@
+﻿{
+  "name": "com.hive.engine_extensions.events",
+  "displayName": "Engine Extensions - Events",
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Event system for easy event registry and bus handle with listeners",
+  "author": { "name": "Remon" },
+  "keywords": ["extensions", "engine", "events"],
+  "dependencies": {}
+}

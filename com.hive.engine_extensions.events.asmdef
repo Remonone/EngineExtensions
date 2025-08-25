@@ -1,0 +1,13 @@
+﻿{
+  "name": "com.hive.engine_extensions.events",
+  "rootNamespace": "EngineExtensions.Core.Events",
+  "references": ["com.hive.engine_extensions.abstraction", "com.hive.engine_extensions.logger", "com.hive.engine_extensions.scheduler"],
+  "includePlatforms": ["Android", "Editor", "iOS", "LinuxStandalone64", "WindowsStandalone64"],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
