@@ -1,0 +1,13 @@
+﻿{
+  "name": "com.hive.engine_extensions.jobs",
+  "rootNamespace": "EngineExtensions.Core.Jobs",
+  "references": ["GUID:2577f73c12733cd4c8b7a109e9338fd0"],
+  "includePlatforms": ["Android", "Editor", "iOS", "LinuxStandalone64", "WindowsStandalone64"],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

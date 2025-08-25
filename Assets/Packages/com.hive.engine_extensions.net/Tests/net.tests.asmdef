@@ -1,0 +1,7 @@
+﻿{
+  "name": "net.tests",
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "references":[ "GUID:2577f73c12733cd4c8b7a109e9338fd0", "GUID:01d06a7ac98948dc978d8fbd03dc6422" ]
+}

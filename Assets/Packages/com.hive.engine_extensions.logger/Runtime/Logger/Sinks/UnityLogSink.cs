@@ -4,8 +4,9 @@ using UnityEngine;
 namespace EngineExtensions.Logger.Sinks {
     public class UnityLogSink : ILogSink {
         public void Write(LogEntry entry) {
-            var msg = entry.Context is { } c && !string.IsNullOrEmpty(c.Category) ? $"[{c.Category}] {entry.Message} (tick={c.Tick}, ent={c.EntityId})" : entry.Message;
-
+            var msg = entry.Context is { } c && !string.IsNullOrEmpty(c.Category) ? $"[{entry.Level}] <{c.Category}> {entry.Message} (tick={c.Tick}, ent={c.EntityId})" : $"[{entry.Level}] {entry.Message}";
+            var ex = entry.Exception;
+            if (ex != null) msg += $"\n{ex}";
             switch (entry.Level) {
                 case LogLevel.DEBUG:
                 case LogLevel.TRACE:

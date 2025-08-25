@@ -1,0 +1,21 @@
+﻿using EngineExtensions.Abstractions;
+using EngineExtensions.Core.Events.Policies.Dispatcher;
+using EngineExtensions.Logger;
+using UnityEngine;
+
+namespace EngineExtensions.Core.Events {
+    public class EventPump : IUpdatable {
+        
+        private readonly UpdatePhase _phase;
+        private readonly int _maxPerTick;
+
+        public EventPump(UpdatePhase phase, int maxPerTick) {
+            _phase = phase;
+            _maxPerTick = maxPerTick;
+        }
+        public void Tick(float delta) {
+            var n = EventRouter.Pump(_phase, _maxPerTick);
+            DefaultLogger.Instance.Write(LogLevel.TRACE, $"Pump {_phase}: {n} events pumped, pending: {EventRouter.Pending(_phase)}");
+        }
+    }
+}

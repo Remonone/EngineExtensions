@@ -1,0 +1,10 @@
+﻿{
+  "name": "com.hive.engine_extensions.net",
+  "displayName": "Engine Extensions - Networking",
+  "version": "0.0.1",
+  "unity": "6000.2",
+  "description": "Net adapter with separated channels for differing data which should be synced between all the clients",
+  "author": { "name": "Remon" },
+  "keywords": ["extensions", "engine", "network"],
+  "dependencies": {}
+}
