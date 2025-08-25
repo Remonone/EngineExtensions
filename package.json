@@ -1,0 +1,10 @@
+﻿{
+  "name": "com.hive.engine_extensions.jobs",
+  "displayName": "Engine Extensions - Jobs",
+  "version": "0.0.2",
+  "unity": "6000.2",
+  "description": "Jobs for fragmented execution tasks with budget limits",
+  "author": { "name": "Remon" },
+  "keywords": ["extensions", "engine", "jobs"],
+  "dependencies": {}
+}
