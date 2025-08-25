@@ -1,6 +1,6 @@
+using System;
+
 namespace EngineExtensions.Abstractions {
-    
-    public enum LogLevel { TRACE, DEBUG, INFO, WARNING, ERROR, FATAL }
 
     public record LogContext {
         public int? Tick = null;
@@ -9,6 +9,6 @@ namespace EngineExtensions.Abstractions {
     }
     
     public interface ILog {
-        void Write(LogLevel level, string message, LogContext? context = null);
+        void Write(LogLevel level, string message, Exception ex = null, LogContext? context = null);
     }
 }
