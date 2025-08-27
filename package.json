@@ -1,10 +1,12 @@
 ﻿{
   "name": "com.hive.engine_extensions.extras",
   "displayName": "Engine Extensions - Extras",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "6000.2",
   "description": "Additional tools",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "extras"],
-  "dependencies": {}
+  "dependencies": {
+    "com.hive_engine_extensions.abstractions": "0.0.4"
+  }
 }
