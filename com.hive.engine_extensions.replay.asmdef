@@ -1,0 +1,13 @@
+﻿{
+  "name": "com.hive.engine_extensions.replay",
+  "references":[ "com.hive.engine_extensions.abstraction" ],
+  "rootNamespace": "EngineExtensions.Replay",
+  "includePlatforms": ["Android", "Editor", "iOS", "LinuxStandalone64", "WindowsStandalone64"],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
