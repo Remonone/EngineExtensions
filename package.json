@@ -6,5 +6,7 @@
   "description": "Net adapter with separated channels for differing data which should be synced between all the clients",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "network"],
-  "dependencies": {}
+  "dependencies": {
+    "com.hive_engine_extensions.abstractions": "0.0.4"
+  }
 }
