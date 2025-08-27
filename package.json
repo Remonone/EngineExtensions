@@ -1,7 +1,7 @@
 ﻿{
-  "name": "com.hive.engine_extensions.net",
+  "name": "com.hive.engine_extensions.replay",
   "displayName": "Engine Extensions - Replay",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "6000.2",
   "description": "Append-only binary container for recording Bootstrap/Snapshots/Commands with index, plus reader & simple playback source.",
   "author": { "name": "Remon" },
