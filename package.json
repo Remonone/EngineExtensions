@@ -6,5 +6,7 @@
 "description": "Logging implementation for multiple sinks of logging",
 "author": { "name": "Remon" },
 "keywords": ["extensions", "engine", "logging"],
-"dependencies": {}
+"dependencies": {
+  "com.hive_engine_extensions.abstractions": "0.0.4"
+}
 }
