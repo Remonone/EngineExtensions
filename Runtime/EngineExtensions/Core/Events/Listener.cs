@@ -1,5 +1,6 @@
 ﻿using System;
 using EngineExtensions.Abstractions;
+using EngineExtensions.Abstractions.Events;
 
 namespace EngineExtensions.Core.Events {
     public class Listener<T> : IEventListener<T> where T : IEvent {

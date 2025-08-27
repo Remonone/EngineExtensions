@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using EngineExtensions.Abstractions;
+using EngineExtensions.Abstractions.Events;
 using EngineExtensions.Abstractions.Utils;
 using EngineExtensions.Logger;
 using UnityEditor;
 using UnityEngine;
 
-namespace EngineExtensions.Core.Events.Utils {
-    public class EventBusStorage {
+namespace EngineExtensions.Core.Events.Registry {
+    public static class EventBusRegistry {
         private static IReadOnlyList<Type> EventTypes { get; set; }
         private static IReadOnlyList<Type> EventBusTypes { get; set; }
 
