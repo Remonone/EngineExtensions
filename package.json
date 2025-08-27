@@ -6,5 +6,7 @@
   "description": "Generic, extensible snapshot codec with pluggable component descriptors",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "network"],
-  "dependencies": {}
+  "dependencies": {
+    "com.hive_engine_extensions.abstractions": "0.0.4"
+  }
 }
