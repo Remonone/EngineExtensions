@@ -1,0 +1,23 @@
+{
+    "name": "com.hive.engine_extensions.input",
+    "rootNamespace": "EngineExtensions.Input",
+    "references": [
+        "com.hive.engine_extensions.abstraction",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor",
+        "iOS",
+        "LinuxStandalone64",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
