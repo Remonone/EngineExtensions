@@ -1,13 +1,13 @@
 ﻿{
   "name": "com.hive.engine_extensions.input",
   "displayName": "Engine Extensions - Input",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "6000.2",
   "description": "Generic command schema with pluggable codecs and compact on-wire packets.",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "input"],
   "dependencies": { 
     "com.unity.inputsystem": "1.14.2",
-    "com.hive.engine_extensions.abstraction": "0.0.4"
+    "com.hive.engine_extensions.abstractions": "0.0.4"
   }
 }
