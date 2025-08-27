@@ -1,12 +1,12 @@
 ﻿{
   "name": "com.hive.engine_extensions.snapshots",
   "displayName": "Engine Extensions - Snapshots",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "unity": "6000.2",
   "description": "Generic, extensible snapshot codec with pluggable component descriptors",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "network"],
   "dependencies": {
-    "com.hive_engine_extensions.abstractions": "0.0.4"
+    "com.hive.engine_extensions.abstractions": "0.0.4"
   }
 }
