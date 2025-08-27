@@ -1,13 +1,13 @@
 ﻿{
   "name": "com.hive.engine_extensions.scheduler",
   "displayName": "Engine Extensions - Scheduler",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "unity": "6000.2",
   "description": "Determined scheduler system for creating maintainable and isolated component which handle",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "scheduling"],
   "dependencies": {
     "com.hive.engine_extensions.abstractions": "0.0.4",
-    "com.hive.engine_extensions.logger": "0.0.2"
+    "com.hive.engine_extensions.logger": "0.0.3"
   }
 }
