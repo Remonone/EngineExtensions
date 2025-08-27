@@ -1,7 +1,7 @@
 ﻿{
-  "name": "com.hive_engine_extensions.assets.unity",
+  "name": "com.hive_engine_extensions.assets",
   "displayName": "Hive Assets (Unity Addressables Adapter)",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "unity": "2022.3",
   "description": "Unity Addressables-backed implementation of IAssets facade.",
   "author": { "name": "Hive" },
