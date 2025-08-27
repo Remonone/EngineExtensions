@@ -1,7 +1,7 @@
 {
-  "name": "com.hive.engine_extensions.ai",
+  "name": "com.hive.engine_extensions.ai_utility",
   "displayName": "Engine Extensions - Utility AI",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "6000.2",
   "description": "",
   "author": { "name": "Remon" },

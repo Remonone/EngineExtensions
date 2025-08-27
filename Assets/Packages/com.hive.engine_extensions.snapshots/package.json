@@ -1,7 +1,7 @@
 ﻿{
-  "name": "com.hive.engine_extensions.net",
+  "name": "com.hive.engine_extensions.snapshots",
   "displayName": "Engine Extensions - Snapshots",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "unity": "6000.2",
   "description": "Generic, extensible snapshot codec with pluggable component descriptors",
   "author": { "name": "Remon" },
