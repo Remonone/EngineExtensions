@@ -6,5 +6,7 @@
   "description": "Jobs for fragmented execution tasks with budget limits",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "jobs"],
-  "dependencies": {}
+  "dependencies": {
+    "com.hive_engine_extensions.abstractions": "0.0.4"
+  }
 }

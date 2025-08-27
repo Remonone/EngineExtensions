@@ -1,5 +1,5 @@
 ﻿using System;
-using EngineExtensions.Abstractions;
+using EngineExtensions.Abstractions.Events;
 using EngineExtensions.Core.Events.Attributes;
 using EngineExtensions.Core.Events.Policies.Dispatcher;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EngineExtensions.Abstractions {
+namespace EngineExtensions.Abstractions.Events {
     public interface IEvent { }
     public interface ICancellable { }
 

@@ -13,11 +13,20 @@ namespace EngineExtensions.Net.Utils {
         private readonly ITransport _transport; 
         private readonly Action<TelemetryMarker> _emit;
         private readonly List<byte[]> _segments = new(32);
-        private double _nextFlushAt; private readonly double _intervalSec; private readonly Func<double> _now;
-        private const byte B0 = 0x42, B1 = 0x54; // 'B''T'
+        private double _nextFlushAt;
+        private readonly double _intervalSec;
+        private readonly Func<double> _now;
+        private const byte B0 = 0x42, B1 = 0x54;
 
         public Batcher(ITransport t, byte code, byte channel, Reliability rel, double intervalSec, Func<double> now, Action<TelemetryMarker> emit){ 
-            _transport=t; _eventCode=code; _channel=channel; _rel=rel; _intervalSec=intervalSec; _now=now; _emit=emit; _nextFlushAt = now();
+            _transport=t; 
+            _eventCode=code;
+            _channel=channel;
+            _rel=rel;
+            _intervalSec=intervalSec;
+            _now=now;
+            _emit=emit;
+            _nextFlushAt = now();
         }
 
         public void Enqueue(byte[] segment) {
