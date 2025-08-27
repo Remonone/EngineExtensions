@@ -1,14 +1,14 @@
 {
   "name": "com.hive.engine_extensions.ai_utility",
   "displayName": "Engine Extensions - Utility AI",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "unity": "6000.2",
   "description": "",
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "ai", "utility"],
   "dependencies": {
     "com.hive.engine_extensions.extras": "0.0.3",
-    "com.hive.engine_extensions.abstraction": "0.0.4",
+    "com.hive.engine_extensions.abstractions": "0.0.4",
     "com.hive.engine_extensions.scheduler": "0.0.4",
     "com.hive.engine_extensions.logger": "0.0.3"
   }
