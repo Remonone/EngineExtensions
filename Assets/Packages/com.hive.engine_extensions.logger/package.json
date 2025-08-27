@@ -1,12 +1,12 @@
 {
-"name": "com.hive.engine_extensions.logger",
-"displayName": "Engine Extensions - Logger",
-"version": "0.0.2",
-"unity": "6000.2",
-"description": "Logging implementation for multiple sinks of logging",
-"author": { "name": "Remon" },
-"keywords": ["extensions", "engine", "logging"],
-"dependencies": {
-  "com.hive_engine_extensions.abstractions": "0.0.4"
-}
+  "name": "com.hive.engine_extensions.logger",
+  "displayName": "Engine Extensions - Logger",
+  "version": "0.0.3",
+  "unity": "6000.2",
+  "description": "Logging implementation for multiple sinks of logging",
+  "author": { "name": "Remon" },
+  "keywords": ["extensions", "engine", "logging"],
+  "dependencies": {
+    "com.hive.engine_extensions.abstractions": "0.0.4"
+  }
 }
