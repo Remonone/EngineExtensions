@@ -7,6 +7,6 @@
   "author": { "name": "Remon" },
   "keywords": ["extensions", "engine", "jobs"],
   "dependencies": {
-    "com.hive.engine_extensions.abstractions": "0.0.4"
+    "com.hive.engine_extensions.abstractions": "0.0.5"
   }
 }
