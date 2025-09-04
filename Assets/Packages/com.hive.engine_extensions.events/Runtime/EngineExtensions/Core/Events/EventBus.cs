@@ -73,7 +73,6 @@ namespace EngineExtensions.Core.Events {
         
         public static void Clear() {
             _listeners.Clear();
-            _listeners = null;
         }
     }
 }
