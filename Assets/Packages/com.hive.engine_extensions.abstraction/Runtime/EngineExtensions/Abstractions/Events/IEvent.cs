@@ -2,7 +2,9 @@
 
 namespace EngineExtensions.Abstractions.Events {
     public interface IEvent { }
-    public interface ICancellable { }
+    public interface ICancellable {
+        bool Cancelled { get; set; }
+    }
 
     public interface IEventListener<T> where T : IEvent {
         

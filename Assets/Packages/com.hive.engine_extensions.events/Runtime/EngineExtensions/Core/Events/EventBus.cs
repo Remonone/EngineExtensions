@@ -69,6 +69,11 @@ namespace EngineExtensions.Core.Events {
                 Priority yEventPriority = y.GetType().GetCustomAttribute<ListenerPriorityAttribute>()?.Priority ?? Priority.LOW;
                 return xEventPriority - yEventPriority;
             }
-        } 
+        }
+        
+        public void Clear() {
+            _listeners.Clear();
+            _listeners = null;
+        }
     }
 }
