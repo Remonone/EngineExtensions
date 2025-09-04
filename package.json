@@ -6,7 +6,7 @@
   "description": "Unity Addressables-backed implementation of IAssets facade.",
   "author": { "name": "Hive" },
   "dependencies": {
-    "com.hive.engine_extensions.abstractions": "0.0.4",
+    "com.hive.engine_extensions.abstractions": "0.0.5",
     "com.hive.engine_extensions.logger": "0.0.3",
     "com.unity.addressables": "2.7.2"
   }
