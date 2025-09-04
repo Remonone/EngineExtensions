@@ -8,6 +8,6 @@
   "keywords": ["extensions", "engine", "input"],
   "dependencies": { 
     "com.unity.inputsystem": "1.14.2",
-    "com.hive.engine_extensions.abstractions": "0.0.4"
+    "com.hive.engine_extensions.abstractions": "0.0.5"
   }
 }
