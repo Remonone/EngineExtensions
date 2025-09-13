@@ -23,7 +23,7 @@ namespace EngineExtensions.Tests {
             Listener<ImmediateEvent> listener = new Listener<ImmediateEvent>();
             listener.Add(() => isCalled = true);
             
-            EventBus<ImmediateEvent>.Register(listener);
+            EventBus<ImmediateEvent>.Register(listener, null);
             
             EventBus<ImmediateEvent>.Raise(new ImmediateEvent());
             
@@ -36,7 +36,7 @@ namespace EngineExtensions.Tests {
             
             Listener<DelayedEvent> listener = new Listener<DelayedEvent>();
             listener.Add(() => isCalled = true);
-            EventBus<DelayedEvent>.Register(listener);
+            EventBus<DelayedEvent>.Register(listener, null);
             
             EventBus<DelayedEvent>.Raise(new DelayedEvent());
             
@@ -53,7 +53,7 @@ namespace EngineExtensions.Tests {
             Listener<DelayedEvent> listener = new Listener<DelayedEvent>();
             listener.Add(() => isCalled = true);
             
-            EventBus<DelayedEvent>.Register(listener);
+            EventBus<DelayedEvent>.Register(listener, null);
             
             EventBus<DelayedEvent>.Raise(new DelayedEvent());
             scheduler.RunPhase(UpdatePhase.PRESENTATION, 0);
