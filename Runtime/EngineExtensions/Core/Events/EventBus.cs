@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using EngineExtensions.Abstractions;
 using EngineExtensions.Abstractions.Events;
