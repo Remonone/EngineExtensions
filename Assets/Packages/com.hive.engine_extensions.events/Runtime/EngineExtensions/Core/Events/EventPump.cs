@@ -1,7 +1,5 @@
 ﻿using EngineExtensions.Abstractions;
 using EngineExtensions.Core.Events.Policies.Dispatcher;
-using EngineExtensions.Logger;
-using UnityEngine;
 
 namespace EngineExtensions.Core.Events {
     public class EventPump : IUpdatable {
